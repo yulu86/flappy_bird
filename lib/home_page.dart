@@ -8,7 +8,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  double birdY = 0;
+  double _birdY = 0;
+  bool _isRunning = false;
 
   @override
   Widget build(BuildContext context) {
@@ -20,20 +21,42 @@ class _HomePageState extends State<HomePage> {
       body: GestureDetector(
         onTap: () {
           setState(() {
-            birdY -= 0.5;
+            _birdY -= 0.5;
           });
         },
-        child: Bird(
-          birdY: birdY,
-          onEnd: onJumpEnd,
-        ),
+        child: _isRunning
+            ? Bird(
+                birdY: _birdY,
+                onEnd: onJumpEnd,
+              )
+            : GestureDetector(
+                onTap: startGame,
+                child: Container(
+                  alignment: const Alignment(0, -0.2),
+                  child: Container(
+                    child: const Text(
+                      '点击开始游戏',
+                      style: TextStyle(
+                        fontSize: 64,
+                        color: Colors.green,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
       ),
     );
   }
 
   void onJumpEnd() {
     setState(() {
-      birdY = 1;
+      _birdY = 1;
+    });
+  }
+
+  void startGame() {
+    setState(() {
+      _isRunning = true;
     });
   }
 }
