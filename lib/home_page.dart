@@ -1,3 +1,4 @@
+import 'package:flappy_bird/bird.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,9 +26,49 @@ class _HomePageState extends State<HomePage> {
           });
         },
         child: _isRunning
-            ? Bird(
-                birdY: _birdY,
-                onEnd: onJumpEnd,
+            ? Column(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Bird(
+                      birdY: _birdY,
+                      onEnd: onJumpEnd,
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                            'assets/images/land.png',
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Text('分数'),
+                              Text('16'),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Text('最高分'),
+                              Text('128'),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               )
             : GestureDetector(
                 onTap: startGame,
@@ -57,33 +98,7 @@ class _HomePageState extends State<HomePage> {
   void startGame() {
     setState(() {
       _isRunning = true;
+      // _birdY = 1;
     });
-  }
-}
-
-class Bird extends StatelessWidget {
-  const Bird({
-    Key? key,
-    required this.birdY,
-    required this.onEnd,
-  }) : super(key: key);
-
-  final double birdY;
-  final VoidCallback onEnd;
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      alignment: Alignment(-0.8, birdY),
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.linearToEaseOut,
-      onEnd: onEnd,
-      child: Container(
-        color: Colors.white,
-        width: 40,
-        height: 40,
-        child: Image.asset('assets/images/bird0_0.png'),
-      ),
-    );
   }
 }
