@@ -1,4 +1,7 @@
 import 'package:flappy_bird/bird.dart';
+import 'package:flappy_bird/pipe.dart';
+import 'package:flappy_bird/score_board.dart';
+import 'package:flappy_bird/start_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,43 +33,28 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Expanded(
                     flex: 3,
-                    child: Bird(
-                      birdY: _birdY,
-                      onEnd: onJumpEnd,
+                    child: Stack(
+                      children: [
+                        const Pipe(
+                          pipeHeight: 200,
+                          pipeX: 0.9,
+                          pipeY: -1,
+                        ),
+                        const Pipe(
+                          pipeHeight: 100,
+                          pipeX: 0.9,
+                          pipeY: 1,
+                        ),
+                        Bird(
+                          birdY: _birdY,
+                          onEnd: onJumpEnd,
+                        ),
+                      ],
                     ),
                   ),
-                  Expanded(
+                  const Expanded(
                     flex: 1,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(
-                            'assets/images/land.png',
-                          ),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Text('分数'),
-                              Text('16'),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Text('最高分'),
-                              Text('128'),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                    child: ScoreBoard(),
                   ),
                 ],
               )
@@ -74,15 +62,7 @@ class _HomePageState extends State<HomePage> {
                 onTap: startGame,
                 child: Container(
                   alignment: const Alignment(0, -0.2),
-                  child: Container(
-                    child: const Text(
-                      '点击开始游戏',
-                      style: TextStyle(
-                        fontSize: 64,
-                        color: Colors.green,
-                      ),
-                    ),
-                  ),
+                  child: const StartScreen(),
                 ),
               ),
       ),
